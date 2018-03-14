@@ -38,6 +38,8 @@ df = pd.read_csv('labels.csv')
 df = df.set_index('index')
 df = df[['Living room', 'Work place(kantoor)', 'Classroom', 'Work Shop', 'Kitchen', 'Bathroom', 'Bedroom', 'Gym', 'Trainstation', 'On public transport', 'Airfield', 'On water', 'Public place', 'In car', 'on Bicycle', 'Concert', 'Farm', 'Nature', 'Park']]
 
+labels = ['Living room', 'Work place(kantoor)', 'Classroom', 'Work Shop', 'Kitchen', 'Bathroom', 'Bedroom', 'Gym', 'Trainstation', 'On public transport', 'Airfield', 'On water', 'Public place', 'In car', 'on Bicycle', 'Concert', 'Farm', 'Nature', 'Park']
+
 def get_labels(idx): 
     return [0.0 if val != 1 else 1.0 for val in df.loc[idx].values]
 
@@ -127,7 +129,9 @@ class Capture(object):
                     i+=1
 
                 arr_index = np.amax(np.array(pred_values))
-                print(pred_values[arr_index])
+                #print(pred_values[int(arr_index)])
+                #print(df.axes)
+                print(labels[int(arr_index)])
                 # print(pred_values)
 
 
