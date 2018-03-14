@@ -78,7 +78,7 @@ class Capture(object):
             while True:
                 i = 0
                 pred_values = []
-                while i < 50:
+                while i < 10:
                     if self._process_buf is None:
                         # Waiting for data to process
                         time.sleep(self._processor_sleep_time)
@@ -97,7 +97,7 @@ class Capture(object):
                     predictions = proc.get_predictions(
                         self._sample_rate, self._process_buf)
                     for x in predictions:
-                        pred_values += get_labels(x[0])
+                        pred_values = [x + y for x, y in zip(pred_values, get_labels(x[0]))]
                         # print(get_labels(x[0]))
     #                logger.info(
     #                    'Predictions: {}'.format(format_predictions(predictions))
