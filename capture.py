@@ -76,38 +76,38 @@ class Capture(object):
         with WavProcessor() as proc:
             self._ask_data.set()
             while True:
-            	i = 0
+                i = 0
+                pred_values = []
+                while i < 50:
+                    if self._process_buf is None:
+                        # Waiting for data to process
+                        time.sleep(self._processor_sleep_time)
+                        continue
 
-            	while i < 50:
-	                if self._process_buf is None:
-	                    # Waiting for data to process
-	                    time.sleep(self._processor_sleep_time)
-	                    continue
+                    self._ask_data.clear()
+                    if self._save_path:
+                        f_path = os.path.join(
+                            self._save_path, 'record_{:.0f}.wav'.format(time.time())
+                        )
+                        wavfile.write(f_path, self._sample_rate, self._process_buf)
+                        logger.info('"{}" saved.'.format(f_path))
 
-	                self._ask_data.clear()
-	                if self._save_path:
-	                    f_path = os.path.join(
-	                        self._save_path, 'record_{:.0f}.wav'.format(time.time())
-	                    )
-	                    wavfile.write(f_path, self._sample_rate, self._process_buf)
-	                    logger.info('"{}" saved.'.format(f_path))
+                    
+                    logger.info('Start processing.')
+                    predictions = proc.get_predictions(
+                        self._sample_rate, self._process_buf)
+                    for x in predictions:
+                        pred_values += get_labels(x[0])
+                        # print(get_labels(x[0]))
+    #                logger.info(
+    #                    'Predictions: {}'.format(format_predictions(predictions))
+    #                )
 
-	                pred_values = []
-	                logger.info('Start processing.')
-	                predictions = proc.get_predictions(
-	                    self._sample_rate, self._process_buf)
-	                for x in predictions:
-	                	pred_values += get_labels(x[0])
-	                    # print(get_labels(x[0]))
-	#                logger.info(
-	#                    'Predictions: {}'.format(format_predictions(predictions))
-	#                )
-
-	                logger.info('Stop processing.')
-	                self._process_buf = None
-	                self._ask_data.set()
-	                i++
-	        print(pred_values)
+                    logger.info('Stop processing.')
+                    self._process_buf = None
+                    self._ask_data.set()
+                    i+=1
+                print(pred_values)
 
 
 if __name__ == '__main__':
