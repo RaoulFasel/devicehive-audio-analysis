@@ -85,6 +85,7 @@ class Capture(object):
                 logger.info('Start processing.')
                 predictions = proc.get_predictions(
                     self._sample_rate, self._process_buf)
+                print(predictions)
                 logger.info(
                     'Predictions: {}'.format(format_predictions(predictions))
                 )

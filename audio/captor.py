@@ -81,6 +81,7 @@ class Captor(object):
         :return:
         """
         ad = AudioDevice()
+
         capture_buf = bytes()
 
         logger.info('Start recording.')
