@@ -125,7 +125,10 @@ class Capture(object):
                     self._process_buf = None
                     self._ask_data.set()
                     i+=1
-                print(pred_values)
+
+                arr_index = np.amax(np.array(pred_values))
+                print(pred_values[arr_index])
+                # print(pred_values)
 
 
 if __name__ == '__main__':
