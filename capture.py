@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+import pandas as pd
 import argparse
 import logging.config
 import threading
@@ -33,6 +33,13 @@ parser.add_argument('--max_time', type=float, default=7, metavar='SECONDS',
 parser.add_argument('-s', '--save_path', type=str, metavar='PATH',
                     help='Save captured audio samples to provided path',
                     dest='path')
+
+df = pd.read_csv('labels.csv')
+df = df.set_index('index')
+df = df[['Living room', 'Work place(kantoor)', 'Classroom', 'Work Shop', 'Kitchen', 'Bathroom', 'Bedroom', 'Gym', 'Trainstation', 'On public transport', 'Airfield', 'On water', 'Public place', 'In car', 'on Bicycle', 'Concert', 'Farm', 'Nature', 'Park']]
+
+def get_labels(idx): 
+    return [0.0 if val != 1 else 1.0 for val in df.loc[idx].values]
 
 
 logging.config.dictConfig(LOGGING)
@@ -85,10 +92,11 @@ class Capture(object):
                 logger.info('Start processing.')
                 predictions = proc.get_predictions(
                     self._sample_rate, self._process_buf)
-                print(predictions)
-                logger.info(
-                    'Predictions: {}'.format(format_predictions(predictions))
-                )
+                for x in predictions:
+                    print(get_labels(x[0]))
+#                logger.info(
+#                    'Predictions: {}'.format(format_predictions(predictions))
+#                )
 
                 logger.info('Stop processing.')
                 self._process_buf = None
