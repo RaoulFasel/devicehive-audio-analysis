@@ -77,7 +77,25 @@ class Capture(object):
             self._ask_data.set()
             while True:
                 i = 0
-                pred_values = []
+                pred_values = [0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0,
+ 0.0]
                 while i < 10:
                     if self._process_buf is None:
                         # Waiting for data to process
@@ -96,8 +114,8 @@ class Capture(object):
                     logger.info('Start processing.')
                     predictions = proc.get_predictions(
                         self._sample_rate, self._process_buf)
-                    for x in predictions:
-                        pred_values = [x + y for x, y in zip(pred_values, get_labels(x[0]))]
+                    for p in predictions:
+                        pred_values = [x + y for x, y in zip(pred_values, get_labels(p[0]))]
                         # print(get_labels(x[0]))
     #                logger.info(
     #                    'Predictions: {}'.format(format_predictions(predictions))
