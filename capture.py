@@ -98,7 +98,7 @@ class Capture(object):
  0.0,
  0.0,
  0.0]
-                while i < 10:
+                while i < 50:
                     if self._process_buf is None:
                         # Waiting for data to process
                         time.sleep(self._processor_sleep_time)
@@ -113,7 +113,7 @@ class Capture(object):
                         logger.info('"{}" saved.'.format(f_path))
 
                     
-                    logger.info('Start processing.')
+                    logger.info(str(i) +' Start processing.')
                     predictions = proc.get_predictions(
                         self._sample_rate, self._process_buf)
                     for p in predictions:
@@ -128,11 +128,19 @@ class Capture(object):
                     self._ask_data.set()
                     i+=1
 
-                arr_index = np.amax(np.array(pred_values))
+
+                #arr_index = np.argmax(np.array(pred_values))
+                arr_index = np.argwhere(pred_values == np.amax(pred_values))
+                arr_index = arr_index.flatten().tolist()
                 #print(pred_values[int(arr_index)])
-                #print(df.axes)
-                print(labels[int(arr_index)])
-                # print(pred_values)
+                #print(arr_index)
+                # if(isinstance(arr_index,np.int64)):
+                #     print(labels[int(arr_index)])
+                # else:
+                for x in arr_index:
+                    print(labels[int(x)])
+                
+                print(pred_values)
 
 
 if __name__ == '__main__':
