@@ -36,9 +36,9 @@ parser.add_argument('-s', '--save_path', type=str, metavar='PATH',
 
 df = pd.read_csv('labels.csv')
 df = df.set_index('index')
-df = df[['Living room', 'Work place(kantoor)', 'Classroom', 'Work Shop', 'Kitchen', 'Bathroom', 'Bedroom', 'Gym', 'Trainstation', 'On public transport', 'Airfield', 'On water', 'Public place', 'In car', 'on Bicycle', 'Concert', 'Farm', 'Nature', 'Park']]
+df = df[['Living room', 'Work place(kantoor)', 'Classroom', 'Work Shop', 'Kitchen', 'Bathroom', 'Bedroom', 'Trainstation', 'Airfield', 'On water', 'Public place', 'Roadside', 'Concert', 'Farm', 'Nature', 'Park']]
 
-labels = ['Living room', 'Work place(kantoor)', 'Classroom', 'Work Shop', 'Kitchen', 'Bathroom', 'Bedroom', 'Gym', 'Trainstation', 'On public transport', 'Airfield', 'On water', 'Public place', 'In car', 'on Bicycle', 'Concert', 'Farm', 'Nature', 'Park']
+labels = ['Living room', 'Work place(kantoor)', 'Classroom', 'Work Shop', 'Kitchen', 'Bathroom', 'Bedroom', 'Trainstation', 'Airfield', 'On water', 'Public place', 'Roadside', 'Concert', 'Farm', 'Nature', 'Park']
 
 def get_labels(idx): 
     return [0.0 if val != 1 else 1.0 for val in df.loc[idx].values]
