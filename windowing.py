@@ -25,7 +25,7 @@ def get_label_val(idx):
 def label_sig(sig, df = get_labels()):
     window_size = 6 * 1000
     overlap = 3 * 1000
-    fragment_length = 20 * 1000
+    fragment_length = 900 * 1000
 
     current_length = 0
 
