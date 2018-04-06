@@ -5,3 +5,4 @@ __pycache__
 /wav
 /result
 config.json
+.ipynb_checkpoints
