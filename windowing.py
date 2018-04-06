@@ -14,6 +14,8 @@ from audio.processor import WavProcessor, format_predictions
 
 from log_config import LOGGING
 
+proc = WavProcessor()
+
 def get_labels(csv_file = 'labels.csv'): 
     df = pd.read_csv(csv_file)
     df = df.set_index('index')
@@ -23,6 +25,8 @@ def get_label_val(idx):
     return [0.0 if val != 1 else 1.0 for val in df.loc[idx].values]
 
 def label_sig(sig, df = get_labels()):
+    global proc
+
     window_size = 6 * 1000
     overlap = 3 * 1000
     fragment_length = 900 * 1000
@@ -42,12 +46,11 @@ def label_sig(sig, df = get_labels()):
         samples = np.array(segment.get_array_of_samples())
         new_sig = samples.astype(np.float32)
 
-        with WavProcessor() as proc:
-            predictions = proc.get_predictions(16000, new_sig)
+        predictions = proc.get_predictions(16000, new_sig)
 
-            for p in predictions:
-                sig_labels.append(p)
-                # print(str(window_start / (60*1000)), ":", str(window_end / (60*1000)), " - ", df.loc[p[0]].values[1], p[1])
+        for p in predictions:
+            sig_labels.append(p)
+            # print(str(window_start / (60*1000)), ":", str(window_end / (60*1000)), " - ", df.loc[p[0]].values[1], p[1])
 
         current_length = window_start
         window_start += (window_size - overlap)
