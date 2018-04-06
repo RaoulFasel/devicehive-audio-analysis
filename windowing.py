@@ -36,7 +36,7 @@ def label_sig(sig, df = get_labels()):
     sig_labels = []
 
     while current_length < fragment_length:
-        print(window_start,window_end)
+        # print(window_start,window_end)
 
         segment = sig[window_start:window_end]
         samples = np.array(segment.get_array_of_samples())
@@ -47,7 +47,7 @@ def label_sig(sig, df = get_labels()):
 
             for p in predictions:
                 sig_labels.append(p)
-                print(str(window_start / (60*1000)), ":", str(window_end / (60*1000)), " - ", df.loc[p[0]].values[1], p[1])
+                # print(str(window_start / (60*1000)), ":", str(window_end / (60*1000)), " - ", df.loc[p[0]].values[1], p[1])
 
         current_length = window_start
         window_start += (window_size - overlap)
@@ -98,8 +98,8 @@ def classify_labels(labels, df = get_labels()):
 
     classification_harmonics_sorted = sorted(classification_harmonics.items(), key=lambda x: x[1])
 
-    for key, val in classification_harmonics_sorted:
-        print(key,val)
+    # for key, val in classification_harmonics_sorted:
+    #     print(key,val)
         
     return classification_harmonics_sorted
 
@@ -109,6 +109,9 @@ def load_wav_from_folder(wav_folder = "wav"):
     for file in os.listdir(wav_folder):
         if file.endswith(".wav"):
             path = os.path.join(wav_folder, file)
+
+            print('Started with ' + str(file))
+
             sig = load_wav(path)
             labels = label_sig(sig)
             res = classify_labels(labels)
@@ -117,6 +120,7 @@ def load_wav_from_folder(wav_folder = "wav"):
                 json.dump(res, f)
                 
             print('Saved ' + str(file) + '_6_3_900.json')
+            print('---')
             
     return signals
 
